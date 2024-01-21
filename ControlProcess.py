@@ -81,17 +81,19 @@ def main():
                         else:
                             print(f'[TYPE] {type} is NOT supported')
             else:
+                isOptionsSupport = False
                 for type in json_contents[stage]:
                     if type == "Options":
                         print(f'[STAGE] Stage {stage} is supported')
                         print(f'[TYPE] {type} is supported')
+                        isOptionsSupport = True
                         for element in json_contents[stage][type]["list"]:
                             module = importlib.import_module(f'Common.{type}')
                             my_class = getattr(module, f'{type}')
                             my_instance = my_class(element)
                             my_instance.execute()
-                        return
-                print(f'Stage {stage} is NOT supported')
+                if isOptionsSupport == False:
+                    print(f'Stage {stage} is NOT supported')
 
 if main() == False:
     sys.exit(-1)
