@@ -1,0 +1,2 @@
+
+global GLOBAL_VARIABLE
