@@ -5,6 +5,7 @@ import argparse
 import importlib
 import re
 from pathlib import Path
+from datetime import datetime
 from Common import Resource
 
 global args
@@ -37,6 +38,7 @@ def updateGlobalData(data):
     data = data.replace('{PATCH}', Resource.GLOBAL_VARIABLE["PATCH"])
     data = data.replace('{PACKAGE}', Resource.GLOBAL_VARIABLE["PACKAGE"])
     data = data.replace('{TEST}', Resource.GLOBAL_VARIABLE["TEST"])
+    data = data.replace('{YYYYMMDD}', datetime.today().strftime('%Y%m%d'))
     return data
 
 # Main function
