@@ -33,10 +33,16 @@ class Options(BaseClass):
                     print("in the middle")
                 elif f'${variable_name}:' in command_without_export: # in the left
                     remain_command = (command_without_export.split(f'${variable_name}:'))[1] # {BUILD}/compiler/w64devkit/bin
-                    os.environ[variable_name] = os.environ[variable_name] + ";" + remain_command
+                    if variable_name in os.environ:
+                        os.environ[variable_name] = os.environ[variable_name] + ";" + remain_command
+                    else:
+                        os.environ[variable_name] = remain_command
                 elif f':${variable_name}' in command_without_export: # in the right
                     remain_command = (command_without_export.split(f':${variable_name}'))[0] # {BUILD}/compiler/w64devkit/bin
-                    os.environ[variable_name] = remain_command + ";" + os.environ[variable_name]
+                    if variable_name in os.environ:
+                        os.environ[variable_name] = remain_command + ";" + os.environ[variable_name]
+                    else:
+                        os.environ[variable_name] = remain_command
                 else:
                     os.environ[variable_name] = command_without_export
             else:
