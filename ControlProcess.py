@@ -41,6 +41,15 @@ def updateGlobalData(data):
     data = data.replace('{YYYYMMDD}', datetime.today().strftime('%Y%m%d'))
     return data
 
+def updateGlobalVariables(data, variables):
+    var_list = variables.split("-")
+    for var in var_list:
+        var = var.split("=")
+        name = var[0]
+        value = var[1]
+        data = data.replace("{" + name + "}", value)
+    return data
+
 # Main function
 def main():
     global args
@@ -48,6 +57,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--json_input", "-ji", help="JSON input file that defines steps for processing", default="")
     parser.add_argument("--stages", "-st", help="List of stages to execute", default="ALL")
+    parser.add_argument("--variables", "-vars", help="Global variables", default="")
     args = parser.parse_args()
 
     init()
@@ -57,6 +67,7 @@ def main():
         file_contents = user_file.read()
 
     file_contents = updateGlobalData(file_contents)
+    file_contents = updateGlobalVariables(file_contents, args.variables)
 
     json_contents = json.loads(file_contents)
     for stage in json_contents:
