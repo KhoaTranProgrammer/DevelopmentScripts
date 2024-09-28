@@ -2,7 +2,6 @@ import sys
 import os
 import json
 import shutil
-from git import Repo
 
 from Common.BaseClass import BaseClass
 

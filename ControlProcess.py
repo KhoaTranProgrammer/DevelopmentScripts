@@ -42,7 +42,7 @@ def updateGlobalData(data):
     return data
 
 def updateGlobalVariables(data, variables):
-    var_list = variables.split("-")
+    var_list = variables.split("--")
     for var in var_list:
         var = var.split("=")
         name = var[0]
@@ -71,7 +71,7 @@ def main():
 
     json_contents = json.loads(file_contents)
     for stage in json_contents:
-        if stage in args.stages:
+        if stage in args.stages or args.stages == "ALL":
             print(stage)
             if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage)):
                 print(f'[STAGE] Stage {stage} is supported')
