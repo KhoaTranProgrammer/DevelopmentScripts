@@ -1,0 +1,47 @@
+{
+    "Introduction":
+    {
+        "Description":
+        {
+            "list":[
+                "This is example of description",
+                "A is apply",
+                "B is banana"
+            ]
+        }
+    },
+    "Configure":
+    {
+        "Options":
+        {
+            "list":[
+                {
+                    "Input": "/",
+                    "Action":
+                    [
+                        "echo Hello World",
+                        "echo {IP}",
+                        "echo {LINK}"
+                    ],
+                    "Output": ""
+                }
+            ]
+        }
+    },
+    "Output":
+    {
+        "Options":
+        {
+            "list":[
+                {
+                    "Input": "/",
+                    "Action":
+                    [
+                        "echo New Stage"
+                    ],
+                    "Output": ""
+                }
+            ]
+        }
+    }
+}
