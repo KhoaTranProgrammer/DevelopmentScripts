@@ -67,7 +67,8 @@ def main():
         file_contents = user_file.read()
 
     file_contents = updateGlobalData(file_contents)
-    file_contents = updateGlobalVariables(file_contents, args.variables)
+    if args.variables:
+        file_contents = updateGlobalVariables(file_contents, args.variables)
 
     json_contents = json.loads(file_contents)
     for stage in json_contents:
