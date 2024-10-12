@@ -42,7 +42,7 @@ def updateGlobalData(data):
     return data
 
 def updateGlobalVariables(data, variables):
-    var_list = variables.split("--")
+    var_list = variables.split("||")
     for var in var_list:
         var = var.split("=")
         name = var[0]
