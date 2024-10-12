@@ -76,34 +76,34 @@ def main():
             print(stage)
             if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage)):
                 print(f'[STAGE] Stage {stage} is supported')
-                for type in json_contents[stage]:
-                    if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage, stage + type + ".py")):
-                        print(f'[TYPE] {type} is supported')
-                        for element in json_contents[stage][type]["list"]:
-                            module = importlib.import_module(f'{stage}.{stage}{type}')
-                            my_class = getattr(module, f'{stage}{type}')
+                for plugin in json_contents[stage]:
+                    if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage, stage + plugin + ".py")):
+                        print(f'[PLUGIN] {plugin} is supported')
+                        for element in json_contents[stage][plugin]["list"]:
+                            module = importlib.import_module(f'{stage}.{stage}{plugin}')
+                            my_class = getattr(module, f'{stage}{plugin}')
                             my_instance = my_class(element)
                             my_instance.execute()
                     else:
-                        if type == "Options":
-                            print(f'[TYPE] {type} is supported')
-                            for element in json_contents[stage][type]["list"]:
-                                module = importlib.import_module(f'Common.{type}')
-                                my_class = getattr(module, f'{type}')
+                        if plugin == "Options":
+                            print(f'[PLUGIN] {plugin} is supported')
+                            for element in json_contents[stage][plugin]["list"]:
+                                module = importlib.import_module(f'Common.{plugin}')
+                                my_class = getattr(module, f'{plugin}')
                                 my_instance = my_class(element)
                                 my_instance.execute()
                         else:
-                            print(f'[TYPE] {type} is NOT supported')
+                            print(f'[PLUGIN] {plugin} is NOT supported')
             else:
                 isOptionsSupport = False
-                for type in json_contents[stage]:
-                    if type == "Options":
+                for plugin in json_contents[stage]:
+                    if plugin == "Options":
                         print(f'[STAGE] Stage {stage} is supported')
-                        print(f'[TYPE] {type} is supported')
+                        print(f'[PLUGIN] {plugin} is supported')
                         isOptionsSupport = True
-                        for element in json_contents[stage][type]["list"]:
-                            module = importlib.import_module(f'Common.{type}')
-                            my_class = getattr(module, f'{type}')
+                        for element in json_contents[stage][plugin]["list"]:
+                            module = importlib.import_module(f'Common.{plugin}')
+                            my_class = getattr(module, f'{plugin}')
                             my_instance = my_class(element)
                             my_instance.execute()
                 if isOptionsSupport == False:
