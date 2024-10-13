@@ -1,0 +1,43 @@
+{
+    "Introduction":
+    {
+        "Description":
+        {
+            "list":[
+                "This is example of testing",
+                "python ControlProcess.py -ji JSON/TestingSample.json"
+            ]
+        }
+    },
+    "Test":
+    {
+        "Cases":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "TestID": "001",
+                        "Type": "FIA",
+                        "File":
+                        [
+                            "{SCRIPTS}/JSON/TestingSample.json"
+                        ]
+                    }
+                }
+            ]
+        },
+        "Report":
+        {
+            "list":[
+                {
+                    "Output":
+                    {
+                        "FileName": "{YYYYMMDD}_TestReport.html",
+                        "FileLocation": "{TEST}"
+                    }
+                }
+            ]
+        }
+    }
+}
