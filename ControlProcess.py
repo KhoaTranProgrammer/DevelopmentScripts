@@ -34,6 +34,7 @@ def init():
     Resource.GLOBAL_VARIABLE["TEST_ITEM"] = []
 
 def updateGlobalData(data):
+    data = data.replace('{SCRIPTS}', Resource.GLOBAL_VARIABLE["SCRIPTS"])
     data = data.replace('{BUILD}', Resource.GLOBAL_VARIABLE["BUILD"])
     data = data.replace('{PATCH}', Resource.GLOBAL_VARIABLE["PATCH"])
     data = data.replace('{PACKAGE}', Resource.GLOBAL_VARIABLE["PACKAGE"])
