@@ -1,0 +1,115 @@
+{
+    "Introduction":
+    {
+        "Description":
+        {
+            "list":[
+                "This is example of testing",
+                "python ControlProcess.py -ji JSON/PyTorchSample.json"
+            ]
+        }
+    },
+    "PyTorch":
+    {
+        "Transforms":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "train_transform",
+                        "Rotation": "30",
+                        "ResizedCrop": "32",
+                        "HorizontalFlip": true
+                    }
+                }
+            ]
+        },
+        "DataLoader":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "train_loader",
+                        "DataType": "CIFAR10",
+                        "Location": "{BUILD}/CIFAR10/",
+                        "Transforms": "train_transform"
+                    }
+                }
+            ]
+        },
+        "ShowImages":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "DataLoader": "train_loader",
+                        "Show": "False"
+                    }
+                }
+            ]
+        },
+        "NeuralNetwork":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "neural_network"
+                    }
+                }
+            ]
+        },
+        "Criterion":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "criterion"
+                    }
+                }
+            ]
+        },
+        "Optimizer":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "optimizer",
+                        "NeuralNetwork": "neural_network"
+                    }
+                }
+            ]
+        },
+        "Training":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "NeuralNetwork": "neural_network",
+                        "Criterion": "criterion",
+                        "Optimizer": "optimizer",
+                        "DataLoader": "train_loader",
+                        "Epochs": "10"
+                    }
+                }
+            ]
+        },
+        "Testing":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "NeuralNetwork": "neural_network"
+                    }
+                }
+            ]
+        }
+    }
+}
