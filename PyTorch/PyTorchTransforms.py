@@ -13,34 +13,36 @@ import torchvision.transforms as transforms
 class PyTorchTransforms(BaseClass):
     def __init__(self, json_data):
         BaseClass.__init__(self, json_data)
-        self._randomRotation = 30
-        self._randomResizedCrop = 32
 
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
-        print(self.json_data["Input"]["Rotation"])
-        print(self.json_data["Input"]["ResizedCrop"])
-        print(self.json_data["Input"]["HorizontalFlip"])
+        transforms_list = []
+        
+        # Rotation
+        try:
+            if self.json_data["Input"]["Rotation"] != None:
+                transforms_list.append(transforms.RandomRotation((int)(self.json_data["Input"]["Rotation"])))
+        except:
+            pass
 
-        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = transforms.Compose([
-            transforms.RandomRotation(30),
-            transforms.RandomResizedCrop(32),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor()
-        ])
+        # ResizedCrop
+        try:
+            if self.json_data["Input"]["ResizedCrop"] != None:
+                transforms_list.append(transforms.RandomResizedCrop((int)(self.json_data["Input"]["ResizedCrop"])))
+        except:
+            pass
 
-        test_transform = transforms.Compose([
-            transforms.ToTensor()
-        ])
+        # HorizontalFlip
+        try:
+            if self.json_data["Input"]["HorizontalFlip"] == True:
+                print("support RandomHorizontalFlip")
+                transforms_list.append(transforms.RandomHorizontalFlip())
+        except:
+            pass
 
-        # script_dir = Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
-        # if os.path.exists(os.path.join(script_dir, self.json_data["Input"]["Type"] + ".py")):
-        #     print(f'[TESTTYPE] {self.json_data["Input"]["Type"]} is supported')
-        #     stage = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
-        #     module = importlib.import_module(f'{stage}.{self.json_data["Input"]["Type"]}')
-        #     my_class = getattr(module, f'{self.json_data["Input"]["Type"]}')
-        #     my_instance = my_class(self.json_data)
-        #     my_instance.execute()
-        # else:
-        #     print(f'[TESTTYPE] {self.json_data["Input"]["Type"]} is NOT supported')
+        transforms_list.append(transforms.ToTensor())
+
+        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = transforms.Compose(
+            transforms_list
+        )

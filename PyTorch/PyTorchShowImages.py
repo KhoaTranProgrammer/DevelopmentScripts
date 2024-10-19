@@ -24,14 +24,14 @@ class PyTorchShowImages(BaseClass):
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
+        count = (int)(self.json_data["Input"]["Count"])
         dataiter = iter(Resource.GLOBAL_VARIABLE[self.json_data["Input"]["DataLoader"]])
         batch = next(dataiter)
-        labels = batch[1][0:5]
-        images = batch[0][0:5]
-        for i in range(5):
-            # print(classes[labels[i]])
-        
+        labels = batch[1][0:count]
+        images = batch[0][0:count]
+        for i in range(count):
             image = images[i].numpy()
+            plt.title(self.json_data["Input"]["Classes"][labels[i]])
             plt.imshow(image.T)
-            if self.json_data["Input"]["DataLoader"] == True:
+            if self.json_data["Input"]["Show"] == True:
                 plt.show()

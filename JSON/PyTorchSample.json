@@ -46,67 +46,9 @@
                     "Input":
                     {
                         "DataLoader": "train_loader",
-                        "Show": "False"
-                    }
-                }
-            ]
-        },
-        "NeuralNetwork":
-        {
-            "list":[
-                {
-                    "Input":
-                    {
-                        "ID": "neural_network"
-                    }
-                }
-            ]
-        },
-        "Criterion":
-        {
-            "list":[
-                {
-                    "Input":
-                    {
-                        "ID": "criterion"
-                    }
-                }
-            ]
-        },
-        "Optimizer":
-        {
-            "list":[
-                {
-                    "Input":
-                    {
-                        "ID": "optimizer",
-                        "NeuralNetwork": "neural_network"
-                    }
-                }
-            ]
-        },
-        "Training":
-        {
-            "list":[
-                {
-                    "Input":
-                    {
-                        "NeuralNetwork": "neural_network",
-                        "Criterion": "criterion",
-                        "Optimizer": "optimizer",
-                        "DataLoader": "train_loader",
-                        "Epochs": "10"
-                    }
-                }
-            ]
-        },
-        "Testing":
-        {
-            "list":[
-                {
-                    "Input":
-                    {
-                        "NeuralNetwork": "neural_network"
+                        "Show": true,
+                        "Count": "1",
+                        "Classes": ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
                     }
                 }
             ]
