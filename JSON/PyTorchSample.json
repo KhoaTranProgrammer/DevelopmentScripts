@@ -34,7 +34,10 @@
                         "ID": "train_loader",
                         "DataType": "CIFAR10",
                         "Location": "{BUILD}/CIFAR10/",
-                        "Transforms": "train_transform"
+                        "Transforms": "train_transform",
+                        "Download": false,
+                        "Train": true,
+                        "BatchSize": "32"
                     }
                 }
             ]
@@ -46,7 +49,7 @@
                     "Input":
                     {
                         "DataLoader": "train_loader",
-                        "Show": true,
+                        "Show": false,
                         "Count": "1",
                         "Classes": ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
                     }

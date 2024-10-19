@@ -24,10 +24,33 @@ class PyTorchDataLoader(BaseClass):
 
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
-        print(self.json_data["Input"]["ID"])
-        print(self.json_data["Input"]["DataType"])
-        print(self.json_data["Input"]["Location"])
-        print(self.json_data["Input"]["Transforms"])
+        
+        # print(self.json_data["Input"]["ID"])
+        # print(self.json_data["Input"]["DataType"])
+        # print(self.json_data["Input"]["Location"])
+        # print(self.json_data["Input"]["Transforms"])
 
-        train_data = torchvision.datasets.CIFAR10(self.json_data["Input"]["Location"], download=True, train=True, transform=Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Transforms"]])
-        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = torch.utils.data.DataLoader(train_data, batch_size=32, shuffle=True)
+        download = True
+        try:
+            if self.json_data["Input"]["Download"] == False:
+                download = False
+        except:
+            pass
+
+        train = True
+        try:
+            if self.json_data["Input"]["Train"] == False:
+                train = False
+        except:
+            pass
+
+        batch_size = 32
+        try:
+            if self.json_data["Input"]["BatchSize"] != None:
+                batch_size = (int)(self.json_data["Input"]["BatchSize"])
+        except:
+            pass
+
+        if self.json_data["Input"]["DataType"] == "CIFAR10":
+            data = torchvision.datasets.CIFAR10(self.json_data["Input"]["Location"], download=download, train=train, transform=Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Transforms"]])
+            Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = torch.utils.data.DataLoader(data, batch_size=batch_size, shuffle=True)
