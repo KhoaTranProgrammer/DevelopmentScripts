@@ -55,6 +55,67 @@
                     }
                 }
             ]
+        },
+        "NeuralNetwork":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "neural_network",
+                        "DefinedNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
+                    }
+                }
+            ]
+        },
+        "Criterion":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "criterion"
+                    }
+                }
+            ]
+        },
+        "Optimizer":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "optimizer",
+                        "NeuralNetwork": "neural_network"
+                    }
+                }
+            ]
+        },
+        "Training":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "NeuralNetwork": "neural_network",
+                        "Criterion": "criterion",
+                        "Optimizer": "optimizer",
+                        "DataLoader": "train_loader",
+                        "Epochs": "1"
+                    }
+                }
+            ]
+        },
+        "Testing":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "NeuralNetwork": "neural_network"
+                    }
+                }
+            ]
         }
     }
 }

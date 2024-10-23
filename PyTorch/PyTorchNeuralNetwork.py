@@ -16,6 +16,7 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 class PyTorchNeuralNetwork(BaseClass):
     def __init__(self, json_data):
@@ -24,24 +25,15 @@ class PyTorchNeuralNetwork(BaseClass):
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
-        class Classifier(nn.Module):
-            def __init__(self):
-                super().__init__()
+        # D:/Develop/DevelopmentScripts/JSON/PyTorchSampeNeuralNetwork.py
+        python_defined_network = self.json_data["Input"]["DefinedNet"]
+        file_name = os.path.basename(python_defined_network) # PyTorchSampeNeuralNetwork.py
+        file_path = python_defined_network.split(file_name)[0] # D:/Develop/DevelopmentScripts/JSON/
+        module_name = os.path.splitext(file_name)[0] # PyTorchSampeNeuralNetwork
 
-                self.fc1 = nn.Linear(3*32*32, 64)
-                self.fc2 = nn.Linear(64, 32)
-                self.fc3 = nn.Linear(32, 10)
-
-                self.logsoftmax = nn.LogSoftmax(dim=1)
-
-            def forward(self, x):
-                x = x.view(x.shape[0], -1)
-
-                x = F.relu(self.fc1(x))
-                x = F.relu(self.fc2(x))
-                x = self.logsoftmax(self.fc3(x))
-
-                return x
-
-        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = Classifier()
-
+        sys.path.append(file_path)
+        module = importlib.import_module(f'{module_name}')
+        my_class = getattr(module, f'{module_name}')
+        my_instance = my_class()
+        
+        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = my_instance.getNetwork()
