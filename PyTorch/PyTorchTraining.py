@@ -24,16 +24,12 @@ class PyTorchTraining(BaseClass):
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
-        trainloader = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["DataLoader"]]
+        trainloader = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["TrainLoader"]]
         model = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["NeuralNetwork"]]
         criterion = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Criterion"]]
         optimizer = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Optimizer"]]
 
-        test_transform = transforms.Compose([
-            transforms.ToTensor()
-        ])
-        test_data = torchvision.datasets.CIFAR10('CIFAR10/', download=True, train=False, transform=test_transform)
-        testloader = torch.utils.data.DataLoader(test_data, batch_size=32)
+        testloader = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ValidationLoader"]]
 
         epochs = (int)(self.json_data["Input"]["Epochs"])
         steps = 0
@@ -63,7 +59,6 @@ class PyTorchTraining(BaseClass):
                     model.eval()
                     with torch.no_grad():
                         for inputs, labels in testloader:
-                            # inputs, labels = inputs.to(device), labels.to(device)
                             logps = model.forward(inputs)
                             batch_loss = criterion(logps, labels)
                             

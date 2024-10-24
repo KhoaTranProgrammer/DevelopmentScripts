@@ -22,6 +22,12 @@
                         "ResizedCrop": "32",
                         "HorizontalFlip": true
                     }
+                },
+                {
+                    "Input":
+                    {
+                        "ID": "test_transform"
+                    }
                 }
             ]
         },
@@ -37,6 +43,18 @@
                         "Transforms": "train_transform",
                         "Download": false,
                         "Train": true,
+                        "BatchSize": "32"
+                    }
+                },
+                {
+                    "Input":
+                    {
+                        "ID": "test_loader",
+                        "DataType": "CIFAR10",
+                        "Location": "{BUILD}/CIFAR10/",
+                        "Transforms": "test_transform",
+                        "Download": true,
+                        "Train": false,
                         "BatchSize": "32"
                     }
                 }
@@ -104,7 +122,8 @@
                         "NeuralNetwork": "neural_network",
                         "Criterion": "criterion",
                         "Optimizer": "optimizer",
-                        "DataLoader": "train_loader",
+                        "TrainLoader": "train_loader",
+                        "ValidationLoader": "test_loader",
                         "Epochs": "1"
                     }
                 }
