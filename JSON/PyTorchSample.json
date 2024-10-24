@@ -87,7 +87,10 @@
                     "Input":
                     {
                         "ID": "optimizer",
-                        "NeuralNetwork": "neural_network"
+                        "NeuralNetwork": "neural_network",
+                        "Optim": "SGD",
+                        "LR": "0.003",
+                        "Momentum": "0.9"
                     }
                 }
             ]

@@ -24,4 +24,6 @@ class PyTorchOptimizer(BaseClass):
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
-        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = optim.SGD((Resource.GLOBAL_VARIABLE[self.json_data["Input"]["NeuralNetwork"]]).parameters(), lr=0.003, momentum=0.9)
+        lr = (float)(self.json_data["Input"]["LR"])
+        momentum = (float)(self.json_data["Input"]["Momentum"])
+        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = optim.SGD((Resource.GLOBAL_VARIABLE[self.json_data["Input"]["NeuralNetwork"]]).parameters(), lr=lr, momentum=momentum)
