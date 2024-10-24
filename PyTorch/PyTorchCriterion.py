@@ -24,4 +24,5 @@ class PyTorchCriterion(BaseClass):
     def execute(self):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
-        Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = nn.NLLLoss()
+        if self.json_data["Input"]["Loss"] == "NLLLoss":
+            Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = nn.NLLLoss()

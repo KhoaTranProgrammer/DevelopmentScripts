@@ -74,7 +74,8 @@
                 {
                     "Input":
                     {
-                        "ID": "criterion"
+                        "ID": "criterion",
+                        "Loss": "NLLLoss"
                     }
                 }
             ]
