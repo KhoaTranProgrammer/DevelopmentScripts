@@ -136,7 +136,9 @@
                 {
                     "Input":
                     {
-                        "NeuralNetwork": "neural_network"
+                        "NeuralNetwork": "neural_network",
+                        "TestLoader": "test_loader",
+                        "DefinedTestingNet": "{SCRIPTS}/JSON/PyTorchSampleTesting.py"
                     }
                 }
             ]

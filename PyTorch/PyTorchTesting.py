@@ -25,23 +25,17 @@ class PyTorchTesting(BaseClass):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
         model = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["NeuralNetwork"]]
-        test_transform = transforms.Compose([
-            transforms.ToTensor()
-        ])
-        test_data = torchvision.datasets.CIFAR10('CIFAR10/', download=True, train=False, transform=test_transform)
-        testloader = torch.utils.data.DataLoader(test_data, batch_size=32)
+        validationLoader = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["TestLoader"]]
 
-        accuracy = 0
-        model.eval()
-        with torch.no_grad():
-            for images, labels in testloader:
-                # images = images.to(device)
-                # labels = labels.to(device)
-                logps = model.forward(images)
+        # D:/Develop/DevelopmentScripts/JSON/PyTorchSampleTesting.py
+        python_defined_networktraining = self.json_data["Input"]["DefinedTestingNet"]
+        file_name = os.path.basename(python_defined_networktraining) # PyTorchSampleTesting.py
+        file_path = python_defined_networktraining.split(file_name)[0] # D:/Develop/DevelopmentScripts/JSON/
+        module_name = os.path.splitext(file_name)[0] # PyTorchSampleTesting
 
-                ps = torch.exp(logps)
-                top_p, top_class = ps.topk(1, dim=1)
-                equality = top_class == labels.view(*top_class.shape)
-                accuracy += torch.mean(equality.type(torch.FloatTensor)).item()
-        model.train()
-        print(f"Test accuracy: {accuracy/len(testloader):.4%}")
+        sys.path.append(file_path)
+        module = importlib.import_module(f'{module_name}')
+        my_class = getattr(module, f'{module_name}')
+        my_instance = my_class()
+        
+        my_instance.testingNetwork(model, validationLoader)
