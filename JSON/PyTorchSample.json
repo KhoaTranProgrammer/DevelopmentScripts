@@ -124,7 +124,8 @@
                         "Optimizer": "optimizer",
                         "TrainLoader": "train_loader",
                         "ValidationLoader": "test_loader",
-                        "Epochs": "1"
+                        "Epochs": "1",
+                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleTraining.py"
                     }
                 }
             ]
