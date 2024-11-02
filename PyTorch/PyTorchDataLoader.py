@@ -51,6 +51,22 @@ class PyTorchDataLoader(BaseClass):
         except:
             pass
 
+        valid_percent = 0
+        try:
+            if self.json_data["Input"]["ValidPercent"] != None:
+                valid_percent = (float)(self.json_data["Input"]["ValidPercent"])
+        except:
+            pass
+
+        data = None
         if self.json_data["Input"]["DataType"] == "CIFAR10":
             data = torchvision.datasets.CIFAR10(self.json_data["Input"]["Location"], download=download, train=train, transform=Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Transforms"]])
-            Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = torch.utils.data.DataLoader(data, batch_size=batch_size, shuffle=True)
+            
+        if data != None:
+            if valid_percent == 0:
+                Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = torch.utils.data.DataLoader(data, batch_size=batch_size, shuffle=True)
+            else:
+                # Separate train_data into 2 parts: 1 for train, 1 for validate
+                train_data, validation_data = torch.utils.data.random_split(data, [1 - valid_percent, valid_percent])
+                Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = torch.utils.data.DataLoader(train_data, batch_size=batch_size, shuffle=True)
+                Resource.GLOBAL_VARIABLE[self.json_data["Input"]["IDValid"]] = torch.utils.data.DataLoader(validation_data, batch_size=batch_size, shuffle=True)

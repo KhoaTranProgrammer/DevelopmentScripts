@@ -43,7 +43,9 @@
                         "Transforms": "train_transform",
                         "Download": false,
                         "Train": true,
-                        "BatchSize": "32"
+                        "BatchSize": "32",
+                        "IDValid": "validation_loader",
+                        "ValidPercent": "0.2"
                     }
                 },
                 {
@@ -123,8 +125,8 @@
                         "Criterion": "criterion",
                         "Optimizer": "optimizer",
                         "TrainLoader": "train_loader",
-                        "ValidationLoader": "test_loader",
-                        "Epochs": "1",
+                        "ValidationLoader": "validation_loader",
+                        "Epochs": "50",
                         "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleTraining.py"
                     }
                 }
