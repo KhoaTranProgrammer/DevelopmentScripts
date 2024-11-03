@@ -126,8 +126,8 @@
                         "Optimizer": "optimizer",
                         "TrainLoader": "train_loader",
                         "ValidationLoader": "validation_loader",
-                        "Epochs": "50",
-                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleTraining.py"
+                        "Epochs": "5",
+                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
                     }
                 }
             ]
@@ -140,7 +140,7 @@
                     {
                         "NeuralNetwork": "neural_network",
                         "TestLoader": "test_loader",
-                        "DefinedTestingNet": "{SCRIPTS}/JSON/PyTorchSampleTesting.py"
+                        "DefinedTestingNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
                     }
                 }
             ]
