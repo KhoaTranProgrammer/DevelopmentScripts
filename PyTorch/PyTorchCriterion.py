@@ -26,3 +26,6 @@ class PyTorchCriterion(BaseClass):
 
         if self.json_data["Input"]["Loss"] == "NLLLoss":
             Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = nn.NLLLoss()
+        
+        if self.json_data["Input"]["Loss"] == "CrossEntropyLoss":
+            Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = nn.CrossEntropyLoss()

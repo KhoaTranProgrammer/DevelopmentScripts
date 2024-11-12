@@ -3,6 +3,7 @@ import os
 import json
 import shutil
 import importlib
+import numpy as np
 from pathlib import Path
 
 from Common.BaseClass import BaseClass
@@ -18,6 +19,7 @@ class PyTorchTransforms(BaseClass):
         print(f'This is execute() from {self.__class__.__name__}: {str(self.json_data)}')
 
         transforms_list = []
+        transforms_list.append(transforms.ToTensor())
         
         # Rotation
         try:
@@ -41,7 +43,14 @@ class PyTorchTransforms(BaseClass):
         except:
             pass
 
-        transforms_list.append(transforms.ToTensor())
+        # Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        try:
+            if self.json_data["Input"]["Normalize_Mean"] != None and self.json_data["Input"]["Normalize_Std"] != None:
+                list_mean = np.fromstring(self.json_data["Input"]["Normalize_Mean"], dtype=float, sep=',')
+                list_std = np.fromstring(self.json_data["Input"]["Normalize_Std"], dtype=float, sep=',')
+                transforms_list.append(transforms.Normalize(list_mean, list_std))
+        except:
+            pass
 
         Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = transforms.Compose(
             transforms_list

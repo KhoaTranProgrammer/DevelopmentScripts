@@ -1,0 +1,126 @@
+{
+    "Introduction":
+    {
+        "Description":
+        {
+            "list":[
+                "This is example of testing",
+                "python ControlProcess.py -ji JSON/PyTorchSampleCrossEntropyLoss.json"
+            ]
+        }
+    },
+    "PyTorch":
+    {
+        "Transforms":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "transform",
+                        "Normalize_Mean": "0.5, 0.5, 0.5",
+                        "Normalize_Std": "0.5, 0.5, 0.5"
+                    }
+                }
+            ]
+        },
+        "DataLoader":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "train_loader",
+                        "DataType": "CIFAR10",
+                        "Location": "{BUILD}/CIFAR10/",
+                        "Transforms": "transform",
+                        "Download": true,
+                        "Train": true,
+                        "BatchSize": "32"
+                    }
+                },
+                {
+                    "Input":
+                    {
+                        "ID": "test_loader",
+                        "DataType": "CIFAR10",
+                        "Location": "{BUILD}/CIFAR10/",
+                        "Transforms": "transform",
+                        "Download": true,
+                        "Train": false,
+                        "BatchSize": "32"
+                    }
+                }
+            ]
+        },
+        "ShowImages":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "DataLoader": "train_loader",
+                        "Show": false,
+                        "Count": "1",
+                        "Classes": ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+                    }
+                }
+            ]
+        },
+        "NeuralNetwork":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "neural_network",
+                        "DefinedNet": "{SCRIPTS}/JSON/PyTorchSampleNNWithCrossEntropyLoss.py"
+                    }
+                }
+            ]
+        },
+        "Criterion":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "criterion",
+                        "Loss": "CrossEntropyLoss"
+                    }
+                }
+            ]
+        },
+        "Optimizer":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "ID": "optimizer",
+                        "NeuralNetwork": "neural_network",
+                        "Optim": "Adam",
+                        "LR": "0.001"
+                    }
+                }
+            ]
+        },
+        "Training":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "NeuralNetwork": "neural_network",
+                        "Criterion": "criterion",
+                        "Optimizer": "optimizer",
+                        "TrainLoader": "train_loader",
+                        "ValidationLoader": "test_loader",
+                        "Epochs": "10",
+                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleNNWithCrossEntropyLoss.py"
+                    }
+                }
+            ]
+        }
+    }
+}
