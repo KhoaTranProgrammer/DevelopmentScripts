@@ -32,6 +32,9 @@ class PyTorchShowImages(BaseClass):
         for i in range(count):
             image = images[i].numpy()
             plt.title(self.json_data["Input"]["Classes"][labels[i]])
-            plt.imshow(image.T)
+            if self.json_data["Input"]["Squeeze"] == True:
+                plt.imshow(image.T.squeeze().T)
+            else:
+                plt.imshow(image.T)
             if self.json_data["Input"]["Show"] == True:
                 plt.show()

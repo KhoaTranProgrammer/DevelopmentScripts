@@ -38,4 +38,10 @@ class PyTorchTesting(BaseClass):
         my_class = getattr(module, f'{module_name}')
         my_instance = my_class()
         
-        my_instance.testingNetwork(model, validationLoader)
+        try:
+            if self.json_data["Input"]["Criterion"] != None:
+                criterion = Resource.GLOBAL_VARIABLE[self.json_data["Input"]["Criterion"]]
+                my_instance.testingNetwork(model, validationLoader, criterion)
+        except:
+            my_instance.testingNetwork(model, validationLoader)
+        

@@ -5,7 +5,7 @@
         {
             "list":[
                 "This is example of testing",
-                "python ControlProcess.py -ji JSON/PyTorchSample.json"
+                "python ControlProcess.py -ji JSON/PyTorch_MNIST_Handwritten.json"
             ]
         }
     },
@@ -17,15 +17,9 @@
                 {
                     "Input":
                     {
-                        "ID": "train_transform",
-                        "Normalize_Mean": "0.5, 0.5, 0.5",
-                        "Normalize_Std": "0.5, 0.5, 0.5"
-                    }
-                },
-                {
-                    "Input":
-                    {
-                        "ID": "test_transform"
+                        "ID": "transform",
+                        "Normalize_Mean": "0.5",
+                        "Normalize_Std": "0.5"
                     }
                 }
             ]
@@ -37,12 +31,12 @@
                     "Input":
                     {
                         "ID": "train_loader",
-                        "DataType": "CIFAR10",
-                        "Location": "{BUILD}/CIFAR10/",
-                        "Transforms": "train_transform",
-                        "Download": false,
+                        "DataType": "MNIST",
+                        "Location": "{BUILD}/MNIST/",
+                        "Transforms": "transform",
+                        "Download": true,
                         "Train": true,
-                        "BatchSize": "32",
+                        "BatchSize": "64",
                         "IDValid": "validation_loader",
                         "ValidPercent": "0.2"
                     }
@@ -51,12 +45,12 @@
                     "Input":
                     {
                         "ID": "test_loader",
-                        "DataType": "CIFAR10",
-                        "Location": "{BUILD}/CIFAR10/",
-                        "Transforms": "test_transform",
+                        "DataType": "MNIST",
+                        "Location": "{BUILD}/MNIST/",
+                        "Transforms": "transform",
                         "Download": true,
                         "Train": false,
-                        "BatchSize": "32"
+                        "BatchSize": "64"
                     }
                 }
             ]
@@ -69,8 +63,9 @@
                     {
                         "DataLoader": "train_loader",
                         "Show": false,
-                        "Count": "1",
-                        "Classes": ["plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+                        "Squeeze": true,
+                        "Count": "5",
+                        "Classes": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
                     }
                 }
             ]
@@ -82,7 +77,7 @@
                     "Input":
                     {
                         "ID": "neural_network",
-                        "DefinedNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
+                        "DefinedNet": "{SCRIPTS}/JSON/PyTorch_MNIST_Handwritten.py"
                     }
                 }
             ]
@@ -94,7 +89,7 @@
                     "Input":
                     {
                         "ID": "criterion",
-                        "Loss": "NLLLoss"
+                        "Loss": "CrossEntropyLoss"
                     }
                 }
             ]
@@ -108,8 +103,7 @@
                         "ID": "optimizer",
                         "NeuralNetwork": "neural_network",
                         "Optim": "SGD",
-                        "LR": "0.003",
-                        "Momentum": "0.9"
+                        "LR": "1e-3"
                     }
                 }
             ]
@@ -126,7 +120,7 @@
                         "TrainLoader": "train_loader",
                         "ValidationLoader": "validation_loader",
                         "Epochs": "5",
-                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
+                        "DefinedTrainingNet": "{SCRIPTS}/JSON/PyTorch_MNIST_Handwritten.py"
                     }
                 }
             ]
@@ -139,7 +133,8 @@
                     {
                         "NeuralNetwork": "neural_network",
                         "TestLoader": "test_loader",
-                        "DefinedTestingNet": "{SCRIPTS}/JSON/PyTorchSampleNeuralNetwork.py"
+                        "Criterion": "criterion",
+                        "DefinedTestingNet": "{SCRIPTS}/JSON/PyTorch_MNIST_Handwritten.py"
                     }
                 }
             ]

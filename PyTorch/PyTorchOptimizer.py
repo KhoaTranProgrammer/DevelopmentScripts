@@ -26,7 +26,13 @@ class PyTorchOptimizer(BaseClass):
 
         if self.json_data["Input"]["Optim"] == "SGD":
             lr = (float)(self.json_data["Input"]["LR"])
-            momentum = (float)(self.json_data["Input"]["Momentum"])
+            momentum = 0.0
+            try:
+                if self.json_data["Input"]["Momentum"] != None:
+                    momentum = (float)(self.json_data["Input"]["Momentum"])
+            except:
+                pass
+            
             Resource.GLOBAL_VARIABLE[self.json_data["Input"]["ID"]] = optim.SGD((Resource.GLOBAL_VARIABLE[self.json_data["Input"]["NeuralNetwork"]]).parameters(), lr=lr, momentum=momentum)
         elif self.json_data["Input"]["Optim"] == "Adam":
             lr = (float)(self.json_data["Input"]["LR"])
