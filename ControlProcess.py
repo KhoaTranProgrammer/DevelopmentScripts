@@ -86,7 +86,7 @@ def main():
                             my_instance = my_class(element)
                             my_instance.execute()
                     else:
-                        if plugin == "Options":
+                        if plugin == "Options" or plugin == "OptionsLoop":
                             print(f'[PLUGIN] {plugin} is supported')
                             for element in json_contents[stage][plugin]["list"]:
                                 module = importlib.import_module(f'Common.{plugin}')
@@ -98,7 +98,7 @@ def main():
             else:
                 isOptionsSupport = False
                 for plugin in json_contents[stage]:
-                    if plugin == "Options":
+                    if plugin == "Options" or plugin == "OptionsLoop":
                         print(f'[STAGE] Stage {stage} is supported')
                         print(f'[PLUGIN] {plugin} is supported')
                         isOptionsSupport = True
