@@ -107,6 +107,13 @@ def main():
                             my_class = getattr(module, f'{plugin}')
                             my_instance = my_class(element)
                             my_instance.execute()
+                    elif os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], plugin + ".py")):
+                        print(f'[PLUGIN] {plugin} is supported')
+                        for element in json_contents[stage][plugin]["list"]:
+                            module = importlib.import_module(f'{plugin.replace("/", ".")}')
+                            my_class = getattr(module, f'{plugin.split("/")[-1]}')
+                            my_instance = my_class(element)
+                            my_instance.execute()
                 if isOptionsSupport == False:
                     print(f'Stage {stage} is NOT supported')
 

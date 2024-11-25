@@ -1,0 +1,43 @@
+{
+    "Introduction":
+    {
+        "Description":
+        {
+            "list":[
+                "This is example of testing",
+                "python ControlProcess.py -ji Samples/OverPluginSample.json"
+            ]
+        }
+    },
+    "SAMPLE":
+    {
+        "Test/TestCases":
+        {
+            "list":[
+                {
+                    "Input":
+                    {
+                        "TestID": "001",
+                        "Type": "FIA",
+                        "File":
+                        [
+                            "{SCRIPTS}/Samples/TestingSample.json"
+                        ]
+                    }
+                }
+            ]
+        },
+        "Test/TestReport":
+        {
+            "list":[
+                {
+                    "Output":
+                    {
+                        "FileName": "{YYYYMMDD}_TestReport.html",
+                        "FileLocation": "{TEST}"
+                    }
+                }
+            ]
+        }
+    }
+}
