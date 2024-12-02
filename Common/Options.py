@@ -4,6 +4,7 @@ import json
 import shutil
 
 from Common.BaseClass import BaseClass
+from Utility import RunCommand
 
 class Options(BaseClass):
     def __init__(self, json_data):
@@ -15,36 +16,6 @@ class Options(BaseClass):
         os.chdir(self.json_data["Input"])
         
         for command in self.json_data["Action"]:
-            command_trip = command.strip()
-            
-            if command_trip.startswith("export "):
-                # "export PATH=$PATH:{BUILD}/compiler/w64devkit/bin"
-                # Remove export from command: 
-                command_without_export = ((command_trip.split("export"))[1]).strip() # PATH=$PATH:{BUILD}/compiler/w64devkit/bin
-
-                # Get the variable name:
-                variable_name = (command_without_export.split("="))[0] # PATH
-
-                # Remove variable name from command
-                command_without_export = command_without_export.replace(f'{variable_name}=', "") # $PATH:{BUILD}/compiler/w64devkit/bin
-
-                if f':${variable_name}:' in command_without_export: # in the middle
-                    print("in the middle")
-                elif f'${variable_name}:' in command_without_export: # in the left
-                    remain_command = (command_without_export.split(f'${variable_name}:'))[1] # {BUILD}/compiler/w64devkit/bin
-                    if variable_name in os.environ:
-                        os.environ[variable_name] = os.environ[variable_name] + ";" + remain_command
-                    else:
-                        os.environ[variable_name] = remain_command
-                elif f':${variable_name}' in command_without_export: # in the right
-                    remain_command = (command_without_export.split(f':${variable_name}'))[0] # {BUILD}/compiler/w64devkit/bin
-                    if variable_name in os.environ:
-                        os.environ[variable_name] = remain_command + ";" + os.environ[variable_name]
-                    else:
-                        os.environ[variable_name] = remain_command
-                else:
-                    os.environ[variable_name] = command_without_export
-            else:
-                os.system(command)
+            RunCommand.execute_cmd(command)
 
         os.chdir(cwd)
