@@ -4,7 +4,7 @@
         "Description":
         {
             "list":[
-                "python ./DevelopmentScripts/ControlProcess.py -ji SAMPLE_LOOP.json -st ALL -vars=\"WD=.||STR1=1 2 3||STR2=4 5 6||STR3=a b c d\""
+                "python ControlProcess.py -ji Samples/SAMPLE_LOOP.json -st ALL -vars WD=.::STR1=1?2?3::STR2=4?5?6::STR3=a?b?c?d"
             ]
         }
     },

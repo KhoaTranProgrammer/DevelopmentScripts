@@ -24,7 +24,7 @@ class OptionsLoop(BaseClass):
                 cur_loop = (self.json_data["Input"][loop])
                 cur_loop = cur_loop.replace("md5(", "")
                 cur_loop = cur_loop[:-1]
-                cur_loop = cur_loop.split()
+                cur_loop = cur_loop.split("?")
                 temp_cur_loop = []
                 for item in cur_loop:
                     hashdata = hashlib.md5(item.encode()).hexdigest()
@@ -32,7 +32,7 @@ class OptionsLoop(BaseClass):
                     temp_cur_loop.append(hashdata)
                 cur_loop = temp_cur_loop
             else:
-                cur_loop = (self.json_data["Input"][loop]).split()
+                cur_loop = (self.json_data["Input"][loop]).split("?")
 
             for item in cur_loop:
                 out_array.append({f'{loop}[]': item})
@@ -46,7 +46,7 @@ class OptionsLoop(BaseClass):
                 cur_loop = (self.json_data["Input"][loop])
                 cur_loop = cur_loop.replace("md5(", "")
                 cur_loop = cur_loop[:-1]
-                cur_loop = cur_loop.split()
+                cur_loop = cur_loop.split("?")
                 temp_cur_loop = []
                 for item in cur_loop:
                     hashdata = hashlib.md5(item.encode()).hexdigest()
@@ -54,7 +54,7 @@ class OptionsLoop(BaseClass):
                     temp_cur_loop.append(hashdata)
                 cur_loop = temp_cur_loop
             else:
-                cur_loop = (self.json_data["Input"][loop]).split()
+                cur_loop = (self.json_data["Input"][loop]).split("?")
 
             for item in cur_loop:
                 process_array_one = out_array.copy()

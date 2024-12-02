@@ -46,6 +46,7 @@ def updateGlobalData(data):
 def updateGlobalVariables(data, variables):
     var_list = variables.split("::")
     for var in var_list:
+        print(var)
         var = var.split("=")
         name = var[0]
         value = var[1]
