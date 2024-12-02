@@ -7,7 +7,7 @@
                 "This is example of description",
                 "A is apply",
                 "B is banana",
-                "python ControlProcess.py -ji JSON/Sample.json -st ALL -var IP=1.1.1.0||LINK=google.com"
+                "python ControlProcess.py -ji JSON/Sample.json -st ALL -var IP=1.1.1.0::LINK=google.com"
             ]
         }
     },
