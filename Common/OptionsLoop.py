@@ -8,6 +8,7 @@ import re
 
 from Common.BaseClass import BaseClass
 from Utility import RunCommand
+from Utility import ProcessJSON
 
 class OptionsLoop(BaseClass):
     def __init__(self, json_data):
@@ -64,18 +65,18 @@ class OptionsLoop(BaseClass):
 
     def execute(self):
         cwd = os.getcwd()
-        os.chdir(self.json_data["Input"]["WORKDIR"])
+        os.chdir(ProcessJSON.ReadJSONData(self.json_data, "Input", "WORKDIR"))
 
         combine_array = []
         process_array = []
         combine_array_len = 0
         next_pos = 0
-        numofloop = (int)(self.json_data["Input"]["NumberOfLoop"])
+        numofloop = (int)(ProcessJSON.ReadJSONData(self.json_data, "Input", "NumberOfLoop"))
 
         self.fill_array(0, numofloop, combine_array, process_array)
         
         for items in process_array:
-            for command in self.json_data["Action"]:
+            for command in ProcessJSON.ReadJSONData(self.json_data, "Action"):
                 none_loop_cmd = True
                 for item in items:
                     str_bef = "{" + list(item.keys())[0] + "}"

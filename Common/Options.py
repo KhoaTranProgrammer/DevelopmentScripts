@@ -5,6 +5,7 @@ import shutil
 
 from Common.BaseClass import BaseClass
 from Utility import RunCommand
+from Utility import ProcessJSON
 
 class Options(BaseClass):
     def __init__(self, json_data):
@@ -13,9 +14,9 @@ class Options(BaseClass):
 
     def execute(self):
         cwd = os.getcwd()
-        os.chdir(self.json_data["Input"])
+        os.chdir(ProcessJSON.ReadJSONData(self.json_data, "Input"))
         
-        for command in self.json_data["Action"]:
+        for command in ProcessJSON.ReadJSONData(self.json_data, "Action"):
             RunCommand.execute_cmd(command)
 
         os.chdir(cwd)

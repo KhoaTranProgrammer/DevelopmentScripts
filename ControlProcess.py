@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 from datetime import datetime
 from Common import Resource
+from Utility import ProcessJSON
 
 global args
 
@@ -77,10 +78,10 @@ def main():
             print(stage)
             if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage)):
                 print(f'[STAGE] Stage {stage} is supported')
-                for plugin in json_contents[stage]:
+                for plugin in ProcessJSON.ReadJSONData(json_contents, stage):
                     if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage, stage + plugin + ".py")):
                         print(f'[PLUGIN] {plugin} is supported')
-                        for element in json_contents[stage][plugin]["list"]:
+                        for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'{stage}.{stage}{plugin}')
                             my_class = getattr(module, f'{stage}{plugin}')
                             my_instance = my_class(element)
@@ -88,7 +89,7 @@ def main():
                     else:
                         if plugin == "Options" or plugin == "OptionsLoop":
                             print(f'[PLUGIN] {plugin} is supported')
-                            for element in json_contents[stage][plugin]["list"]:
+                            for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                                 module = importlib.import_module(f'Common.{plugin}')
                                 my_class = getattr(module, f'{plugin}')
                                 my_instance = my_class(element)
@@ -97,19 +98,19 @@ def main():
                             print(f'[PLUGIN] {plugin} is NOT supported')
             else:
                 isOptionsSupport = False
-                for plugin in json_contents[stage]:
+                for plugin in ProcessJSON.ReadJSONData(json_contents, stage):
                     if plugin == "Options" or plugin == "OptionsLoop":
                         print(f'[STAGE] Stage {stage} is supported')
                         print(f'[PLUGIN] {plugin} is supported')
                         isOptionsSupport = True
-                        for element in json_contents[stage][plugin]["list"]:
+                        for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'Common.{plugin}')
                             my_class = getattr(module, f'{plugin}')
                             my_instance = my_class(element)
                             my_instance.execute()
                     elif os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], plugin + ".py")):
                         print(f'[PLUGIN] {plugin} is supported')
-                        for element in json_contents[stage][plugin]["list"]:
+                        for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'{plugin.replace("/", ".")}')
                             my_class = getattr(module, f'{plugin.split("/")[-1]}')
                             my_instance = my_class(element)
