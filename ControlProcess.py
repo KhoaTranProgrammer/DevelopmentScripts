@@ -4,6 +4,9 @@ import json
 import argparse
 import importlib
 import re
+import inspect
+
+from Utility import LogInformation
 from pathlib import Path
 from datetime import datetime
 from Common import Resource
@@ -34,7 +37,12 @@ def init():
     Resource.GLOBAL_VARIABLE["TEST_RESULT"] = True
     Resource.GLOBAL_VARIABLE["TEST_ITEM"] = []
 
+    # Use for log data
+    Resource.LOG_DATA = []
+    Resource.LOG_LEVEL = args.log
+
 def updateGlobalData(data):
+    LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
     data = data.replace('{SCRIPTS}', Resource.GLOBAL_VARIABLE["SCRIPTS"])
     data = data.replace('{BUILD}', Resource.GLOBAL_VARIABLE["BUILD"])
     data = data.replace('{PATCH}', Resource.GLOBAL_VARIABLE["PATCH"])
@@ -44,6 +52,7 @@ def updateGlobalData(data):
     return data
 
 def updateGlobalVariables(data, variables):
+    LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
     var_list = variables.split("::")
     for var in var_list:
         print(var)
@@ -61,6 +70,7 @@ def main():
     parser.add_argument("--json_input", "-ji", help="JSON input file that defines steps for processing", default="")
     parser.add_argument("--stages", "-st", help="List of stages to execute", default="ALL")
     parser.add_argument("--variables", "-vars", help="Global variables", default="")
+    parser.add_argument("--log", "-lo", help="Log information level", default="0")
     args = parser.parse_args()
 
     init()
@@ -76,12 +86,11 @@ def main():
     json_contents = json.loads(file_contents)
     for stage in json_contents:
         if stage in args.stages or args.stages == "ALL":
-            print(stage)
             if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage)):
-                print(f'[STAGE] Stage {stage} is supported')
+                LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[STAGE] Stage {stage} is supported')
                 for plugin in ProcessJSON.ReadJSONData(json_contents, stage):
                     if os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], stage, stage + plugin + ".py")):
-                        print(f'[PLUGIN] {plugin} is supported')
+                        LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[PLUGIN] {plugin} is supported')
                         for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'{stage}.{stage}{plugin}')
                             my_class = getattr(module, f'{stage}{plugin}')
@@ -89,20 +98,20 @@ def main():
                             my_instance.execute()
                     else:
                         if plugin == "Options" or plugin == "OptionsLoop":
-                            print(f'[PLUGIN] {plugin} is supported')
+                            LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[PLUGIN] {plugin} is supported')
                             for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                                 module = importlib.import_module(f'Common.{plugin}')
                                 my_class = getattr(module, f'{plugin}')
                                 my_instance = my_class(element)
                                 my_instance.execute()
                         else:
-                            print(f'[PLUGIN] {plugin} is NOT supported')
+                            LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[PLUGIN] {plugin} is NOT supported')
             else:
                 isOptionsSupport = False
                 for plugin in ProcessJSON.ReadJSONData(json_contents, stage):
                     if plugin == "Options" or plugin == "OptionsLoop":
-                        print(f'[STAGE] Stage {stage} is supported')
-                        print(f'[PLUGIN] {plugin} is supported')
+                        LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[STAGE] Stage {stage} is supported')
+                        LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[PLUGIN] {plugin} is supported')
                         isOptionsSupport = True
                         for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'Common.{plugin}')
@@ -110,14 +119,16 @@ def main():
                             my_instance = my_class(element)
                             my_instance.execute()
                     elif os.path.exists(os.path.join(Resource.GLOBAL_VARIABLE["SCRIPTS"], plugin + ".py")):
-                        print(f'[PLUGIN] {plugin} is supported')
+                        LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'[PLUGIN] {plugin} is supported')
                         for element in ProcessJSON.ReadJSONData(json_contents, stage, plugin, "list"):
                             module = importlib.import_module(f'{plugin.replace("/", ".")}')
                             my_class = getattr(module, f'{plugin.split("/")[-1]}')
                             my_instance = my_class(element)
                             my_instance.execute()
                 if isOptionsSupport == False:
-                    print(f'Stage {stage} is NOT supported')
+                    LogInformation.LogInformation(__file__, inspect.stack()[0][3], inspect.stack()[0][2], f'Stage {stage} is NOT supported')
+
+    print(Resource.LOG_DATA)
 
 if main() == False:
     sys.exit(-1)

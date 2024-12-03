@@ -3,6 +3,9 @@ import os
 import json
 import shutil
 import importlib
+import inspect
+
+from Utility import LogInformation
 from pathlib import Path
 
 from Common.BaseClass import BaseClass
@@ -10,10 +13,11 @@ from Common import Resource
 
 class TestCases(BaseClass):
     def __init__(self, json_data):
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         BaseClass.__init__(self, json_data)
 
     def execute(self):
-        print("This is execute() from TestCases: " + str(self.json_data))
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
 
         script_dir = Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
         if os.path.exists(os.path.join(script_dir, self.json_data["Input"]["Type"] + ".py")):

@@ -1,2 +1,4 @@
 
 global GLOBAL_VARIABLE
+global LOG_DATA
+global LOG_LEVEL

@@ -3,6 +3,9 @@ import os
 import json
 import shutil
 import subprocess
+import inspect
+
+from Utility import LogInformation
 from pathlib import Path
 
 from Test.TestBase import TestBase
@@ -10,10 +13,11 @@ from Common import Resource
 
 class EXE(TestBase):
     def __init__(self, json_data):
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         TestBase.__init__(self, json_data)
 
     def execute(self):
-        print("This is execute() from EXE: " + str(self.json_data))
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         try:
             if self.json_data["Input"]["SubType"] == "EXE_001": # Check strings contains in output log 
                 log = subprocess.run([f'{self.json_data["Input"]["File"]}', f'{self.json_data["Input"]["Arguments"]}'], check=True, capture_output=True, text=True).stdout

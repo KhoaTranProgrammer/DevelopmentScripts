@@ -3,6 +3,9 @@ import os
 import json
 import shutil
 import importlib
+import inspect
+
+from Utility import LogInformation
 from pathlib import Path
 
 from Common.BaseClass import BaseClass
@@ -10,9 +13,11 @@ from Common import Resource
 
 class TestBase(BaseClass):
     def __init__(self, json_data):
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         BaseClass.__init__(self, json_data)
 
     def createTestItem(self, testID, type, description, result):
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         if result == True:
             test_item = {"Output": {"TestID": testID, "Type": type, "Description": description, "Result": "PASSED"}}
         else:
@@ -21,6 +26,7 @@ class TestBase(BaseClass):
         Resource.GLOBAL_VARIABLE["TEST_ITEM"].append(test_item)
 
     def createHtmlReport(self, htmlFile, testItems):
+        LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
         # to open/create a new html file in the write mode 
         f = open(htmlFile, 'w')
         f.write("<table>\n")

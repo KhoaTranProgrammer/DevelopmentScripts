@@ -5,8 +5,12 @@ import shutil
 import subprocess
 import hashlib
 import re
+import inspect
+
+from Utility import LogInformation
 
 def execute_cmd(command):
+    LogInformation.LogFunctionCall(__file__, inspect.stack()[0][3], inspect.stack()[0][2])
     if "md5(" in command and ")" in command:
         res = re.findall(r'md5\(.*?\)', command)
         for item in res:
